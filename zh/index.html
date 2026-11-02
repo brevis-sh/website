@@ -14,13 +14,20 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="brevis.sh — 用 Go 编写的开源数据基础设施">
 <meta property="og:description" content="brevis.sh 是用 Go 编写的开源数据基础设施：Core 负责编排，SDK 负责抽取和加载，Gateway 接收事件，SQL 为表建模 — 全部在你的集群中运行，数据不经过编排器。Aretê Academy 出品。">
 <meta property="og:url" content="https://brevis.sh/zh/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="brevis.sh — 用 Go 编写的开源数据基础设施">
 <meta name="twitter:description" content="brevis.sh 是用 Go 编写的开源数据基础设施：Core 负责编排，SDK 负责抽取和加载，Gateway 接收事件，SQL 为表建模 — 全部在你的集群中运行，数据不经过编排器。Aretê Academy 出品。">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,11 +60,36 @@
       "url": "https://brevis.sh/",
       "codeRepository": "https://github.com/AreteAcademy/brevis",
       "programmingLanguage": "Go",
+      "image": "https://brevis.sh/assets/og.png",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "author": {
         "@id": "https://areteacademy.com.br/#org"
       }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://brevis.sh/#app",
+      "name": "brevis.sh",
+      "url": "https://brevis.sh/",
+      "description": "brevis.sh 是用 Go 编写的开源数据基础设施：Core 负责编排，SDK 负责抽取和加载，Gateway 接收事件，SQL 为表建模 — 全部在你的集群中运行，数据不经过编排器。Aretê Academy 出品。",
+      "image": "https://brevis.sh/assets/og.png",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, Kubernetes",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      },
+      "sameAs": [
+        "https://github.com/AreteAcademy/brevis",
+        "https://github.com/brevis-sh/brevis"
+      ]
     },
     {
       "@type": "Organization",

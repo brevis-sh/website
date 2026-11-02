@@ -45,7 +45,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — open source data infrastructure in Go",
-      "meta_desc": "brevis.sh is open source data infrastructure in Go: the Core orchestrates, the SDK extracts and loads, the Gateway receives events and SQL models tables — in your cluster, with no data passing through the orchestrator. A project by Aretê Academy.",
+      "meta_desc": "Open source data infrastructure in Go: the Core orchestrates, the SDK extracts and loads, the Gateway receives events, SQL models tables. In your cluster.",
       "hero_eyebrow": "aretê academy · life is short",
       "hero_selo": "Open source · Built in Go · Self-hosted",
       "hero_titulo": "From raw data to modelled tables. <em>In Go.</em>",
@@ -149,7 +149,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — infraestructura de datos de código abierto en Go",
-      "meta_desc": "brevis.sh es infraestructura de datos de código abierto en Go: el Core orquesta, el SDK extrae y carga, el Gateway recibe eventos y SQL modela tablas — en tu clúster, sin que ningún dato pase por el orquestador. Un proyecto de Aretê Academy.",
+      "meta_desc": "Infraestructura de datos open source en Go: el Core orquesta, el SDK extrae y carga, el Gateway recibe eventos y SQL modela tablas. En tu clúster.",
       "hero_eyebrow": "aretê academy · life is short",
       "hero_selo": "Código abierto · Construido en Go · Autoalojado",
       "hero_titulo": "De datos crudos a tablas modeladas. <em>En Go.</em>",
@@ -253,7 +253,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — infraestrutura de dados open source em Go",
-      "meta_desc": "brevis.sh é infraestrutura de dados open source em Go: o Core orquestra, o SDK extrai e carrega, o Gateway recebe eventos e o SQL modela tabelas — no seu cluster, sem o dado passar pelo orquestrador. Um projeto da Aretê Academy.",
+      "meta_desc": "Infraestrutura de dados open source em Go: o Core orquestra, o SDK extrai e carrega, o Gateway recebe eventos e o SQL modela tabelas. No seu cluster.",
       "hero_eyebrow": "aretê academy · a vida é breve",
       "hero_selo": "Open source · Feito em Go · Self-hosted",
       "hero_titulo": "Do dado bruto à tabela modelada. <em>Em Go.</em>",
@@ -357,7 +357,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — infrastructure de données open source en Go",
-      "meta_desc": "brevis.sh est une infrastructure de données open source en Go : le Core orchestre, le SDK extrait et charge, le Gateway reçoit les événements et SQL modélise les tables — dans votre cluster, sans qu'aucune donnée ne transite par l'orchestrateur. Un projet d'Aretê Academy.",
+      "meta_desc": "Infrastructure de données open source en Go : le Core orchestre, le SDK extrait et charge, le Gateway reçoit les événements, SQL modélise. Dans votre cluster.",
       "hero_eyebrow": "aretê academy · la vie est courte",
       "hero_selo": "Open source · Construit en Go · Auto-hébergé",
       "hero_titulo": "Des données brutes aux tables modélisées. <em>En Go.</em>",
@@ -461,7 +461,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — Open-Source-Dateninfrastruktur in Go",
-      "meta_desc": "brevis.sh ist Open-Source-Dateninfrastruktur in Go: Der Core orchestriert, das SDK extrahiert und lädt, das Gateway empfängt Events und SQL modelliert Tabellen — in Ihrem Cluster, ohne dass Daten durch den Orchestrator laufen. Ein Projekt von Aretê Academy.",
+      "meta_desc": "Open-Source-Dateninfrastruktur in Go: Der Core orchestriert, das SDK extrahiert und lädt, das Gateway empfängt Events, SQL modelliert. In Ihrem Cluster.",
       "hero_eyebrow": "aretê academy · das Leben ist kurz",
       "hero_selo": "Open Source · In Go gebaut · Self-hosted",
       "hero_titulo": "Von Rohdaten zu modellierten Tabellen. <em>In Go.</em>",
@@ -669,7 +669,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — Go で作るオープンソースのデータインフラ",
-      "meta_desc": "brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。",
+      "meta_desc": "Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。",
       "hero_eyebrow": "aretê academy · 人生は短い",
       "hero_selo": "オープンソース · Go で構築 · セルフホスト",
       "hero_titulo": "生データからモデリング済みテーブルまで。<em>Go で。</em>",
@@ -773,7 +773,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — open source инфраструктура данных на Go",
-      "meta_desc": "brevis.sh — open source инфраструктура данных на Go: Core оркестрирует, SDK извлекает и загружает, Gateway принимает события, а SQL моделирует таблицы — в вашем кластере, без прохождения данных через оркестратор. Проект Aretê Academy.",
+      "meta_desc": "Open source инфраструктура данных на Go: Core оркестрирует, SDK извлекает и загружает, Gateway принимает события, SQL моделирует. В вашем кластере.",
       "hero_eyebrow": "aretê academy · life is short",
       "hero_selo": "Open source · Написано на Go · Self-hosted",
       "hero_titulo": "От сырых данных к смоделированным таблицам. <em>На Go.</em>",
@@ -877,7 +877,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — Go로 만든 오픈 소스 데이터 인프라",
-      "meta_desc": "brevis.sh는 Go로 만든 오픈 소스 데이터 인프라입니다. Core가 오케스트레이션하고, SDK가 추출하고 적재하며, Gateway가 이벤트를 받고, SQL이 테이블을 모델링합니다 — 사용자의 클러스터 안에서, 오케스트레이터를 거치는 데이터 없이. Aretê Academy의 프로젝트.",
+      "meta_desc": "Go로 만든 오픈 소스 데이터 인프라. Core가 오케스트레이션, SDK가 추출·적재, Gateway가 이벤트 수신, SQL이 모델링. 사용자의 클러스터 안에서 실행.",
       "hero_eyebrow": "aretê academy · 인생은 짧다",
       "hero_selo": "오픈 소스 · Go로 제작 · 셀프 호스팅",
       "hero_titulo": "원시 데이터에서 모델링된 테이블까지. <em>Go로.</em>",
@@ -981,7 +981,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — Go में ओपन सोर्स डेटा इन्फ्रास्ट्रक्चर",
-      "meta_desc": "brevis.sh Go में ओपन सोर्स डेटा इन्फ्रास्ट्रक्चर है: Core ऑर्केस्ट्रेट करता है, SDK निकालता और लोड करता है, Gateway इवेंट लेता है और SQL तालिकाओं का मॉडल बनाता है — आपके cluster में, बिना ऑर्केस्ट्रेटर से डेटा गुज़ारे। Aretê Academy का एक प्रोजेक्ट।",
+      "meta_desc": "Go में ओपन सोर्स डेटा इन्फ्रास्ट्रक्चर: Core ऑर्केस्ट्रेट करता है, SDK एक्सट्रैक्ट और लोड करता है, Gateway इवेंट लेता है, SQL मॉडल बनाता है। आपके cluster में।",
       "hero_eyebrow": "aretê academy · जीवन छोटा है",
       "hero_selo": "ओपन सोर्स · Go में बना · सेल्फ़-होस्टेड",
       "hero_titulo": "कच्चे डेटा से मॉडल की गई तालिकाओं तक। <em>Go में।</em>",
@@ -1085,7 +1085,7 @@
     },
     "landing": {
       "meta_title": "brevis.sh — infrastruktur data open source dengan Go",
-      "meta_desc": "brevis.sh adalah infrastruktur data open source dengan Go: Core mengorkestrasi, SDK mengekstrak dan me-load, Gateway menerima event, dan SQL memodelkan tabel — di cluster Anda, tanpa data melewati orkestrator. Proyek dari Aretê Academy.",
+      "meta_desc": "Infrastruktur data open source dengan Go: Core mengorkestrasi, SDK mengekstrak dan me-load, Gateway menerima event, SQL memodelkan tabel. Di cluster Anda.",
       "hero_eyebrow": "aretê academy · life is short",
       "hero_selo": "Open source · Dibangun dengan Go · Self-hosted",
       "hero_titulo": "Dari data mentah ke tabel yang dimodelkan. <em>Dengan Go.</em>",

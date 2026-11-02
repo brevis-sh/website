@@ -12,15 +12,22 @@
 <link rel="alternate" type="text/markdown" href="https://brevis.sh/fr/docs/faq/index.md">
 <link rel="alternate" hreflang="en-US" href="https://brevis.sh/docs/faq/"><link rel="alternate" hreflang="es" href="https://brevis.sh/es/docs/faq/"><link rel="alternate" hreflang="pt-BR" href="https://brevis.sh/pt/docs/faq/"><link rel="alternate" hreflang="fr" href="https://brevis.sh/fr/docs/faq/"><link rel="alternate" hreflang="de" href="https://brevis.sh/de/docs/faq/"><link rel="alternate" hreflang="zh-CN" href="https://brevis.sh/zh/docs/faq/"><link rel="alternate" hreflang="ja" href="https://brevis.sh/ja/docs/faq/"><link rel="alternate" hreflang="ru" href="https://brevis.sh/ru/docs/faq/"><link rel="alternate" hreflang="ko" href="https://brevis.sh/ko/docs/faq/"><link rel="alternate" hreflang="hi" href="https://brevis.sh/hi/docs/faq/"><link rel="alternate" hreflang="id" href="https://brevis.sh/id/docs/faq/">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="zh_CN"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="FAQ — Documentation">
 <meta property="og:description" content="Les questions qui reviennent en premier, avec des réponses courtes et où aller ensuite.">
 <meta property="og:url" content="https://brevis.sh/fr/docs/faq/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+<meta property="article:modified_time" content="2026-11-01">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FAQ — Documentation">
 <meta name="twitter:description" content="Les questions qui reviennent en premier, avec des réponses courtes et où aller ensuite.">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,18 +40,98 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "FAQ",
-  "description": "Les questions qui reviennent en premier, avec des réponses courtes et où aller ensuite.",
-  "inLanguage": "fr",
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://brevis.sh/#site"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Aretê Academy"
-  }
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://brevis.sh/fr/docs/faq/#artigo",
+      "headline": "FAQ",
+      "description": "Les questions qui reviennent en premier, avec des réponses courtes et où aller ensuite.",
+      "url": "https://brevis.sh/fr/docs/faq/",
+      "inLanguage": "fr",
+      "dateModified": "2026-11-01",
+      "image": "https://brevis.sh/assets/og.png",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://brevis.sh/#site"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Aretê Academy"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "brevis.sh",
+          "item": "https://brevis.sh/fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://brevis.sh/fr/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FAQ",
+          "item": "https://brevis.sh/fr/docs/faq/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "brevis.sh est-il vraiment 100 % open source ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Le runtime complet est ouvert à la lecture, à l'utilisation, à l'adaptation et à la contribution."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Que signifie la référence à Sénèque pour le projet ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Brevitate Vitae inspire une ingénierie plus intentionnelle : réduire la complexité qui consomme du temps, et préserver de la place pour un travail qui a un sens.\n\nPlus de détails dans Philosophie."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment fonctionne l'isolation par pod ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Chaque step de workflow s'exécute comme son propre pod avec sa propre image, ce qui garde séparés les dépendances et le contexte d'exécution.\n\nPlus de détails dans Un pod par step."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quelle est la relation avec Aretê Academy ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "brevis.sh est un projet d'Aretê Academy, qui rapproche les grandes idées de la philosophie des défis réels de la construction de logiciels."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Puis-je n'utiliser qu'un seul des composants ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Chaque composant a son propre module, sa version et son image : le SDK est une bibliothèque Go qui s'exécute dans n'importe quel programme, le Gateway démarre seul avec un fichier YAML et sans base de données, et brevis-sql s'exécute comme un conteneur. Le Core orchestre les autres quand vous le souhaitez — il n'est un prérequis pour aucun d'eux.\n\nPlus de détails dans Écosystème."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>

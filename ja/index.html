@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#141711">
 
 <title>brevis.sh — Go で作るオープンソースのデータインフラ</title>
-<meta name="description" content="brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。">
+<meta name="description" content="Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。">
 <meta name="author" content="Aretê Academy">
 <link rel="canonical" href="https://brevis.sh/ja/">
 
@@ -14,13 +14,20 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="ja">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="zh_CN"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="brevis.sh — Go で作るオープンソースのデータインフラ">
-<meta property="og:description" content="brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。">
+<meta property="og:description" content="Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。">
 <meta property="og:url" content="https://brevis.sh/ja/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="brevis.sh — Go で作るオープンソースのデータインフラ">
-<meta name="twitter:description" content="brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。">
+<meta name="twitter:description" content="Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +47,7 @@
       "url": "https://brevis.sh/",
       "name": "brevis.sh",
       "inLanguage": "ja",
-      "description": "brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。",
+      "description": "Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。",
       "publisher": {
         "@id": "https://areteacademy.com.br/#org"
       }
@@ -49,15 +56,40 @@
       "@type": "SoftwareSourceCode",
       "@id": "https://brevis.sh/#projeto",
       "name": "brevis.sh",
-      "description": "brevis.sh は Go で作られたオープンソースのデータインフラです。Core がオーケストレーションし、SDK が抽出とロードを行い、Gateway がイベントを受け取り、SQL がテーブルをモデリングします — 自分のクラスタ内で、オーケストレーターを経由するデータはありません。Aretê Academy のプロジェクト。",
+      "description": "Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。",
       "url": "https://brevis.sh/",
       "codeRepository": "https://github.com/AreteAcademy/brevis",
       "programmingLanguage": "Go",
+      "image": "https://brevis.sh/assets/og.png",
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
       "author": {
         "@id": "https://areteacademy.com.br/#org"
       }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://brevis.sh/#app",
+      "name": "brevis.sh",
+      "url": "https://brevis.sh/",
+      "description": "Go 製のオープンソースデータ基盤。Core がオーケストレーション、SDK が抽出とロード、Gateway がイベント受信、SQL がモデリング。自分のクラスタ内で動作。",
+      "image": "https://brevis.sh/assets/og.png",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, Kubernetes",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      },
+      "sameAs": [
+        "https://github.com/AreteAcademy/brevis",
+        "https://github.com/brevis-sh/brevis"
+      ]
     },
     {
       "@type": "Organization",

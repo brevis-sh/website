@@ -12,15 +12,22 @@
 <link rel="alternate" type="text/markdown" href="https://brevis.sh/zh/docs/faq/index.md">
 <link rel="alternate" hreflang="en-US" href="https://brevis.sh/docs/faq/"><link rel="alternate" hreflang="es" href="https://brevis.sh/es/docs/faq/"><link rel="alternate" hreflang="pt-BR" href="https://brevis.sh/pt/docs/faq/"><link rel="alternate" hreflang="fr" href="https://brevis.sh/fr/docs/faq/"><link rel="alternate" hreflang="de" href="https://brevis.sh/de/docs/faq/"><link rel="alternate" hreflang="zh-CN" href="https://brevis.sh/zh/docs/faq/"><link rel="alternate" hreflang="ja" href="https://brevis.sh/ja/docs/faq/"><link rel="alternate" hreflang="ru" href="https://brevis.sh/ru/docs/faq/"><link rel="alternate" hreflang="ko" href="https://brevis.sh/ko/docs/faq/"><link rel="alternate" hreflang="hi" href="https://brevis.sh/hi/docs/faq/"><link rel="alternate" hreflang="id" href="https://brevis.sh/id/docs/faq/">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="常见问题 — 文档">
 <meta property="og:description" content="最先被问到的问题，附简短回答和下一步该去哪里。">
 <meta property="og:url" content="https://brevis.sh/zh/docs/faq/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+<meta property="article:modified_time" content="2026-11-01">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="常见问题 — 文档">
 <meta name="twitter:description" content="最先被问到的问题，附简短回答和下一步该去哪里。">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,18 +40,98 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "常见问题",
-  "description": "最先被问到的问题，附简短回答和下一步该去哪里。",
-  "inLanguage": "zh-CN",
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://brevis.sh/#site"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Aretê Academy"
-  }
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://brevis.sh/zh/docs/faq/#artigo",
+      "headline": "常见问题",
+      "description": "最先被问到的问题，附简短回答和下一步该去哪里。",
+      "url": "https://brevis.sh/zh/docs/faq/",
+      "inLanguage": "zh-CN",
+      "dateModified": "2026-11-01",
+      "image": "https://brevis.sh/assets/og.png",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://brevis.sh/#site"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Aretê Academy"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "brevis.sh",
+          "item": "https://brevis.sh/zh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "文档",
+          "item": "https://brevis.sh/zh/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "常见问题",
+          "item": "https://brevis.sh/zh/docs/faq/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "zh-CN",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "brevis.sh 真的是 100% 开源吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "是的。完整的运行时都可以阅读、使用、改造和贡献。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "提到塞内卡对这个项目意味着什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Brevitate Vitae 启发我们采用更有意图的工程方式：减少消耗时间的复杂性，为有目标的工作保留空间。\n\n详见理念。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "pod 隔离是如何工作的？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "每个 workflow 的 step 都作为自己的 pod 运行，使用自己的镜像，使依赖和执行上下文彼此分离。\n\n详见每个 step 一个 pod。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "与 Aretê Academy 是什么关系？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "brevis.sh 是 Aretê Academy 的项目，该学院让哲学中的伟大思想更贴近构建软件的真实挑战。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "我可以只使用其中一个组成部分吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "可以。每个组成部分都有自己的模块、版本和镜像：SDK 是一个可以在任何程序中运行的 Go 库，Gateway 只需一个 YAML 文件即可独立启动，无需数据库，brevis-sql 则作为容器运行。你需要时，Core 可以编排其他几个部分，但它不是其中任何一个的前提条件。\n\n详见生态。"
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>

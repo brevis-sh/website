@@ -12,15 +12,22 @@
 <link rel="alternate" type="text/markdown" href="https://brevis.sh/ko/docs/faq/index.md">
 <link rel="alternate" hreflang="en-US" href="https://brevis.sh/docs/faq/"><link rel="alternate" hreflang="es" href="https://brevis.sh/es/docs/faq/"><link rel="alternate" hreflang="pt-BR" href="https://brevis.sh/pt/docs/faq/"><link rel="alternate" hreflang="fr" href="https://brevis.sh/fr/docs/faq/"><link rel="alternate" hreflang="de" href="https://brevis.sh/de/docs/faq/"><link rel="alternate" hreflang="zh-CN" href="https://brevis.sh/zh/docs/faq/"><link rel="alternate" hreflang="ja" href="https://brevis.sh/ja/docs/faq/"><link rel="alternate" hreflang="ru" href="https://brevis.sh/ru/docs/faq/"><link rel="alternate" hreflang="ko" href="https://brevis.sh/ko/docs/faq/"><link rel="alternate" hreflang="hi" href="https://brevis.sh/hi/docs/faq/"><link rel="alternate" hreflang="id" href="https://brevis.sh/id/docs/faq/">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="zh_CN"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="FAQ — 문서">
 <meta property="og:description" content="가장 먼저 나오는 질문들에 대한 짧은 답변과 다음에 볼 곳입니다.">
 <meta property="og:url" content="https://brevis.sh/ko/docs/faq/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+<meta property="article:modified_time" content="2026-11-01">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FAQ — 문서">
 <meta name="twitter:description" content="가장 먼저 나오는 질문들에 대한 짧은 답변과 다음에 볼 곳입니다.">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,18 +40,98 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "FAQ",
-  "description": "가장 먼저 나오는 질문들에 대한 짧은 답변과 다음에 볼 곳입니다.",
-  "inLanguage": "ko",
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://brevis.sh/#site"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Aretê Academy"
-  }
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://brevis.sh/ko/docs/faq/#artigo",
+      "headline": "FAQ",
+      "description": "가장 먼저 나오는 질문들에 대한 짧은 답변과 다음에 볼 곳입니다.",
+      "url": "https://brevis.sh/ko/docs/faq/",
+      "inLanguage": "ko",
+      "dateModified": "2026-11-01",
+      "image": "https://brevis.sh/assets/og.png",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://brevis.sh/#site"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Aretê Academy"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "brevis.sh",
+          "item": "https://brevis.sh/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "문서",
+          "item": "https://brevis.sh/ko/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FAQ",
+          "item": "https://brevis.sh/ko/docs/faq/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "ko",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "brevis.sh는 정말 100% 오픈 소스인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네. 전체 런타임을 읽고, 사용하고, 수정하고, 기여할 수 있도록 공개되어 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "세네카에 대한 언급은 프로젝트에 어떤 의미가 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Brevitate Vitae는 더 의도적인 엔지니어링에 영감을 줍니다. 시간을 잡아먹는 복잡성은 줄이고, 목적 있는 일을 위한 여유는 지키자는 것입니다.\n\n자세한 내용은 철학에 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "pod 격리는 어떻게 동작하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "workflow의 각 step은 자기만의 이미지를 가진 자기만의 pod로 실행되어, 의존성과 실행 컨텍스트가 분리됩니다.\n\n자세한 내용은 step당 pod 하나에 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Aretê Academy와는 어떤 관계인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "brevis.sh는 Aretê Academy의 프로젝트입니다. Aretê Academy는 철학의 훌륭한 아이디어를 소프트웨어 개발의 실제 과제에 더 가까이 가져옵니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "구성 요소 중 하나만 사용할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네. 각 구성 요소는 고유한 모듈, 버전, 이미지를 가집니다. SDK는 어떤 프로그램에서든 실행되는 Go 라이브러리이고, Gateway는 YAML 파일 하나만 있으면 데이터베이스 없이 단독으로 시작하며, brevis-sql은 컨테이너로 실행됩니다. 원할 때 Core가 나머지를 오케스트레이션하지만, 어느 구성 요소도 Core를 전제 조건으로 요구하지 않습니다.\n\n자세한 내용은 에코시스템에 있습니다."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#141711"/>
+  <g transform="translate(96 150) scale(10)" fill="none" stroke="#ecefe4" stroke-width="3" stroke-linecap="round">
+    <path d="M4 10.4C4 15.2 20 15.2 20 10.4"/>
+  </g>
+  <text x="96" y="400" font-family="Menlo, Courier New, monospace" font-size="96" font-weight="700" fill="#ecefe4">brevis.sh</text>
+  <text x="96" y="470" font-family="Helvetica, Arial, sans-serif" font-size="40" fill="#a3ad97">Open source data infrastructure in Go</text>
+  <text x="96" y="530" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#a3ad97">Orchestrate · Extract and load · Receive events · Model tables</text>
+</svg>
