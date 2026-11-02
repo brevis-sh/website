@@ -153,7 +153,7 @@ tragen.
 
 | Image | trägt | Pull (amd64) |
 |---|---|---|
-| `brevissh/brevis-gateway:0.33.0` | sechs Sinks, S3, GCS, Redis, memcached | 19,1 MB |
+| `brevissh/brevis-gateway:0.33.0` | sechs Sinks, S3, GCS, Redis, memcached | 20,1 MB |
 | `brevissh/brevis-gateway:0.33.0-slim` | `postgres`, lokales `files`, `auto_table` | **5,2 MB** |
 
 Beide aus einem Build eines Baums, die beiden Tags sind also immer derselbe
