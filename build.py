@@ -45,7 +45,7 @@ IDIOMA_NATIVO = {"en": "English", "es": "Español", "pt": "Português", "fr": "F
 # llms.txt é para quem processa.
 LLMS = "en"
 
-REPO = "https://github.com/AreteAcademy/brevis"
+REPO = "https://github.com/brevis-sh/brevis"
 # Este repositório, para o link "editar esta página".
 WEBSITE_REPO = "https://github.com/brevis-sh/website"
 # owner/name, for the API call that counts the stars (templates/base.html).
@@ -442,11 +442,8 @@ def preencher(tpl, valores):
 #
 # Um pacote é um diretório com .go que não é de teste, sob o go.mod mais
 # próximo; o caminho é o `module` dele mais o diretório relativo.
-#
-# GO_VCS é o endereço novo do repositório; REPO, acima, ainda é o antigo (os
-# links do site mudam numa mudança à parte) e o GitHub o redireciona.
 GO_PREFIXO = "brevis.sh/brevis"
-GO_VCS = "https://github.com/brevis-sh/brevis"
+GO_VCS = REPO
 
 
 GO_LISTA = RAIZ / "go-packages.txt"

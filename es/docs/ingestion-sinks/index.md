@@ -403,7 +403,7 @@ SELECT JSON_VALUE(customer, '$.uf') ...;           -- SP
 Si `JSON_TYPE` responde `string` y `JSON_VALUE` responde NULL, el objeto se
 codificó dos veces: la columna contiene el TEXTO del objeto y no el
 objeto. Las versiones del gateway hasta la **0.15.0** inclusive hacían eso en BigQuery,
-en **ambas** formas; ver el [changelog del gateway](https://github.com/AreteAcademy/brevis/blob/master/gateway/CHANGELOG.md)
+en **ambas** formas; ver el [changelog del gateway](https://github.com/brevis-sh/brevis/blob/master/gateway/CHANGELOG.md)
 para la comprobación de una línea y la reparación. Postgres y MySQL nunca se vieron afectados:
 su servidor parsea el texto.
 
