@@ -12,15 +12,22 @@
 <link rel="alternate" type="text/markdown" href="https://brevis.sh/id/docs/faq/index.md">
 <link rel="alternate" hreflang="en-US" href="https://brevis.sh/docs/faq/"><link rel="alternate" hreflang="es" href="https://brevis.sh/es/docs/faq/"><link rel="alternate" hreflang="pt-BR" href="https://brevis.sh/pt/docs/faq/"><link rel="alternate" hreflang="fr" href="https://brevis.sh/fr/docs/faq/"><link rel="alternate" hreflang="de" href="https://brevis.sh/de/docs/faq/"><link rel="alternate" hreflang="zh-CN" href="https://brevis.sh/zh/docs/faq/"><link rel="alternate" hreflang="ja" href="https://brevis.sh/ja/docs/faq/"><link rel="alternate" hreflang="ru" href="https://brevis.sh/ru/docs/faq/"><link rel="alternate" hreflang="ko" href="https://brevis.sh/ko/docs/faq/"><link rel="alternate" hreflang="hi" href="https://brevis.sh/hi/docs/faq/"><link rel="alternate" hreflang="id" href="https://brevis.sh/id/docs/faq/">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="id">
+<meta property="og:locale" content="id_ID">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="zh_CN"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="hi_IN">
 <meta property="og:title" content="FAQ — Dokumentasi">
 <meta property="og:description" content="Pertanyaan yang paling awal muncul, dengan jawaban singkat dan ke mana harus melangkah berikutnya.">
 <meta property="og:url" content="https://brevis.sh/id/docs/faq/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+<meta property="article:modified_time" content="2026-11-01">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FAQ — Dokumentasi">
 <meta name="twitter:description" content="Pertanyaan yang paling awal muncul, dengan jawaban singkat dan ke mana harus melangkah berikutnya.">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,18 +40,98 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "FAQ",
-  "description": "Pertanyaan yang paling awal muncul, dengan jawaban singkat dan ke mana harus melangkah berikutnya.",
-  "inLanguage": "id",
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://brevis.sh/#site"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Aretê Academy"
-  }
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://brevis.sh/id/docs/faq/#artigo",
+      "headline": "FAQ",
+      "description": "Pertanyaan yang paling awal muncul, dengan jawaban singkat dan ke mana harus melangkah berikutnya.",
+      "url": "https://brevis.sh/id/docs/faq/",
+      "inLanguage": "id",
+      "dateModified": "2026-11-01",
+      "image": "https://brevis.sh/assets/og.png",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://brevis.sh/#site"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Aretê Academy"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "brevis.sh",
+          "item": "https://brevis.sh/id/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Dokumentasi",
+          "item": "https://brevis.sh/id/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FAQ",
+          "item": "https://brevis.sh/id/docs/faq/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "id",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah brevis.sh benar-benar 100% sumber terbuka?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya. Runtime lengkapnya terbuka untuk dibaca, dipakai, diadaptasi, dan dikontribusikan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apa arti rujukan kepada Seneca bagi proyek ini?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Brevitate Vitae mengilhami rekayasa yang lebih disengaja: mengurangi kompleksitas yang menghabiskan waktu, dan menjaga ruang untuk pekerjaan yang bertujuan.\n\nSelengkapnya di Filosofi."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bagaimana isolasi pod bekerja?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Setiap step workflow berjalan sebagai pod-nya sendiri dengan image-nya sendiri, menjaga dependensi dan konteks eksekusi tetap terpisah.\n\nSelengkapnya di Pod per step."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apa hubungannya dengan Aretê Academy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "brevis.sh adalah proyek Aretê Academy, yang mendekatkan gagasan-gagasan besar dari filsafat kepada tantangan nyata dalam membangun perangkat lunak."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bisakah saya memakai hanya satu bagian?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya. Setiap bagian punya modul, versi, dan image sendiri: SDK adalah pustaka Go yang berjalan di program mana pun, Gateway dapat dijalankan sendiri dengan file YAML tanpa database, dan brevis-sql berjalan sebagai container. Core mengorkestrasi yang lain bila Anda menghendakinya — ia bukan prasyarat bagi satu pun dari mereka.\n\nSelengkapnya di Ekosistem."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>

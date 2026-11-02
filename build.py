@@ -18,6 +18,8 @@ import os
 import re
 import shutil
 import sys
+import datetime
+import hashlib
 import tempfile
 from pathlib import Path
 
@@ -548,9 +550,37 @@ def nav_docs(paginas, lang, atual):
     return "".join(out)
 
 
+OG_LOCALE = {"en": "en_US", "es": "es_ES", "pt": "pt_BR", "fr": "fr_FR", "de": "de_DE",
+             "zh": "zh_CN", "ja": "ja_JP", "ru": "ru_RU", "ko": "ko_KR", "hi": "hi_IN", "id": "id_ID"}
+OG_IMAGE = BASE_URL + "/assets/og.png"
+
+
+def og_alternativos(lang, idiomas):
+    return "".join('<meta property="og:locale:alternate" content="%s">' % OG_LOCALE[l]
+                   for l in idiomas if l != lang)
+
+
+# Quando cada página de documentação mudou, para o sitemap e o dateModified.
+# Guardado e não tirado do git: o Cloudflare clona raso, e uma data que depende
+# do histórico mudaria entre o `--check` e o `--dist`. O hash é o da fonte da
+# página; a data só muda quando o hash muda.
+LASTMOD_ARQ = RAIZ / "lastmod.json"
+_lastmod_novo = {}
+
+
+def lastmod(chave, p):
+    h = hashlib.sha1(("%s\n%s\n%s" % (p["titulo"], p["descricao"], p["corpo"])).encode("utf-8")).hexdigest()[:12]
+    antigo = json.loads(LASTMOD_ARQ.read_text(encoding="utf-8")) if LASTMOD_ARQ.exists() else {}
+    e = antigo.get(chave)
+    d = e["d"] if e and e["h"] == h else datetime.date.today().isoformat()
+    _lastmod_novo[chave] = {"h": h, "d": d}
+    return d
+
+
 def gerar(destino):
     tpl = carregar_templates()
     i18n = json.loads((RAIZ / "i18n.json").read_text(encoding="utf-8"))
+    _lastmod_novo.clear()
     escritos, urls, indice = [], [], []
     paginas_por_idioma = {}
 
@@ -572,6 +602,8 @@ def gerar(destino):
         ) + '<link rel="alternate" hreflang="x-default" href="%s/">' % BASE_URL
 
         comum = {
+            "og_type": "website", "og_extra": "",
+            "og_locale": OG_LOCALE[lang], "og_locales": og_alternativos(lang, IDIOMAS),
             "lang": LOCALE[lang],
             "prefixo": pfx,
             "prefixo_docs": prefixo_docs(lang),
@@ -624,7 +656,7 @@ def gerar(destino):
             "jsonld": json.dumps(jsonld(lang, s), ensure_ascii=False, indent=2),
         }))
         escritos.append(escrever(destino, ("%s/index.html" % pfx).lstrip("/"), pagina))
-        urls.append(("%s%s/" % (BASE_URL, pfx), 1.0))
+        urls.append(("%s%s/" % (BASE_URL, pfx), 1.0, "", lang, None))
 
         # ---- índice de /docs/ ----
         # (guardado para o llms.txt, gerado uma vez depois do loop)
@@ -664,13 +696,13 @@ def gerar(destino):
             "classe_body": "page-landing",
             "conteudo": corpo,
             "extra_css": '<link rel="stylesheet" href="%s">' % versionado("/css/docs.css"),
-            "extra_js": "",
+            "extra_js": "", "og_locales": og_alternativos(lang, DOCS),
             "jsonld": json.dumps({"@context": "https://schema.org", "@type": "CollectionPage",
                                   "name": s_ui["docs_titulo"], "inLanguage": LOCALE[lang]},
                                  ensure_ascii=False),
         }))
         escritos.append(escrever(destino, ("%s/docs/index.html" % pfx).lstrip("/"), pagina))
-        urls.append(("%s%s/docs/" % (BASE_URL, pfx), 0.9))
+        urls.append(("%s%s/docs/" % (BASE_URL, pfx), 0.9, "docs/", lang, None))
 
         # ---- páginas ----
         for idx, p in enumerate(paginas if tem_docs else []):
@@ -712,6 +744,7 @@ def gerar(destino):
                         % (classe, pfx, pg["slug"], html.escape(rotulo), html.escape(pg["titulo"])))
 
             rel = "docs/%s/" % p["slug"]
+            modificado = lastmod("%s/%s" % (lang, p["slug"]), p)
             corpo = preencher(tpl["doc"], dict(comum, **{
                 "titulo_pagina": html.escape(p["titulo"]),
                 "descricao_pagina": html.escape(p["descricao"]),
@@ -741,7 +774,10 @@ def gerar(destino):
                 "conteudo": corpo,
                 "extra_css": '<link rel="stylesheet" href="%s">' % versionado("/css/docs.css"),
                 "extra_js": '<script src="%s" defer></script>' % versionado("/js/docs.js"),
-                "jsonld": json.dumps(jsonld_doc(lang, s, p), ensure_ascii=False, indent=2),
+                "og_type": "article",
+                "og_locales": og_alternativos(lang, DOCS),
+                "og_extra": '<meta property="article:modified_time" content="%s">' % modificado,
+                "jsonld": json.dumps(jsonld_doc(lang, s, p, rel, modificado), ensure_ascii=False, indent=2),
             }))
             escritos.append(escrever(destino, "%s/%s" % (pfx.lstrip("/"), rel + "index.html") if pfx
                                      else rel + "index.html", pagina))
@@ -755,7 +791,7 @@ def gerar(destino):
                 destino,
                 ("%s/%s" % (pfx.lstrip("/"), rel + "index.md")) if pfx else rel + "index.md",
                 pagina_markdown(p, lang, pfx)))
-            urls.append(("%s%s/%s" % (BASE_URL, pfx, rel), 0.8))
+            urls.append(("%s%s/%s" % (BASE_URL, pfx, rel), 0.8, rel, lang, modificado))
             indice.append({
                 "l": lang,
                 "t": p["titulo"],
@@ -799,6 +835,7 @@ def gerar(destino):
         "canonical": BASE_URL + "/404.html",
             "alternate_md": "",
         "alternativas": "", "seletor": "", "classe_body": "page-landing",
+        "og_type": "website", "og_extra": "", "og_locale": OG_LOCALE[PADRAO], "og_locales": "",
         "conteudo": erro, "extra_css": "", "extra_js": "",
         "jsonld": json.dumps({"@context": "https://schema.org", "@type": "WebPage",
                               "name": s["ui"]["erro_titulo"]}, ensure_ascii=False),
@@ -810,13 +847,34 @@ def gerar(destino):
     # linha a linha, dois PRs só conflitam se tocam a mesma página.
     escrever(destino, "search-index.json",
              "[\n" + ",\n".join(json.dumps(e, ensure_ascii=False, separators=(",", ":")) for e in indice) + "\n]\n")
+    # Cada URL lista as suas versões em outros idiomas (xhtml:link), com a
+    # própria incluída e um x-default: é o que o Google lê para servir a língua
+    # certa, e o que faltava aqui.
+    por_rel = {}
+    for u, _, rel, l, _ in urls:
+        por_rel.setdefault(rel, {})[l] = u
+    linhas = []
+    for u, p, rel, l, mod in urls:
+        alt = por_rel[rel]
+        links = "".join('<xhtml:link rel="alternate" hreflang="%s" href="%s"/>' % (LOCALE[x], alt[x])
+                        for x in IDIOMAS if x in alt)
+        if PADRAO in alt:
+            links += '<xhtml:link rel="alternate" hreflang="x-default" href="%s"/>' % alt[PADRAO]
+        linhas.append("  <url><loc>%s</loc>%s<priority>%.1f</priority>%s</url>\n"
+                      % (u, "<lastmod>%s</lastmod>" % mod if mod else "", p, links))
     escrever(destino, "sitemap.xml",
              '<?xml version="1.0" encoding="UTF-8"?>\n'
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-             + "".join("  <url><loc>%s</loc><priority>%.1f</priority></url>\n" % (u, p) for u, p in urls)
-             + "</urlset>\n")
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+             'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "".join(linhas) + "</urlset>\n")
+    # Os rastreadores de IA estão nomeados e permitidos de propósito: o projeto
+    # quer ser lido e citado, e uma regra explícita sobrevive a quem um dia
+    # trocar o `*` por um Disallow.
+    robots = ("GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot",
+              "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended",
+              "Applebot-Extended", "Bingbot", "Googlebot")
     escrever(destino, "robots.txt",
              "User-agent: *\nAllow: /\n\n"
+             + "".join("User-agent: %s\n" % r for r in robots) + "Allow: /\n\n"
              "Sitemap: %s/sitemap.xml\n"
              "# Documentation for language models, per the llms.txt convention:\n"
              "# %s/llms.txt      the index\n"
@@ -956,25 +1014,68 @@ def jsonld(lang, s):
              "publisher": {"@id": "https://areteacademy.com.br/#org"}},
             {"@type": "SoftwareSourceCode", "@id": BASE_URL + "/#projeto", "name": "brevis.sh",
              "description": s["landing"]["meta_desc"], "url": BASE_URL + "/",
-             "codeRepository": REPO, "programmingLanguage": "Go",
+             "codeRepository": REPO, "programmingLanguage": "Go", "image": OG_IMAGE,
              "license": "https://opensource.org/licenses/MIT", "isAccessibleForFree": True,
              "author": {"@id": "https://areteacademy.com.br/#org"}},
+            {"@type": "SoftwareApplication", "@id": BASE_URL + "/#app", "name": "brevis.sh",
+             "url": BASE_URL + "/", "description": s["landing"]["meta_desc"], "image": OG_IMAGE,
+             "applicationCategory": "DeveloperApplication", "operatingSystem": "Linux, Kubernetes",
+             "license": "https://opensource.org/licenses/MIT", "isAccessibleForFree": True,
+             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+             "publisher": {"@id": "https://areteacademy.com.br/#org"},
+             "sameAs": [REPO, GO_VCS]},
             {"@type": "Organization", "@id": "https://areteacademy.com.br/#org",
              "name": "Aretê Academy", "url": "https://areteacademy.com.br/"},
         ],
     }
 
 
-def jsonld_doc(lang, s, p):
-    return {
-        "@context": "https://schema.org",
+def perguntas(corpo):
+    """(pergunta, resposta) de uma página em que cada `## ` é uma pergunta."""
+    def limpo(t):
+        t = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", t)
+        return re.sub(r"[`*]", "", t).strip()
+    out = []
+    for bloco in re.split(r"^## ", corpo, flags=re.M)[1:]:
+        q, _, r = bloco.partition("\n")
+        r = re.split(r"^#{1,6} ", r, flags=re.M)[0]
+        if limpo(r):
+            out.append((limpo(q), limpo(r)))
+    return out
+
+
+def jsonld_doc(lang, s, p, rel, modificado):
+    pfx = prefixo(lang)
+    url = "%s%s/%s" % (BASE_URL, pfx, rel)
+    artigo = {
         "@type": "TechArticle",
+        "@id": url + "#artigo",
         "headline": p["titulo"],
         "description": p["descricao"],
+        "url": url,
         "inLanguage": LOCALE[lang],
+        "dateModified": modificado,
+        "image": OG_IMAGE,
         "isPartOf": {"@type": "WebSite", "@id": BASE_URL + "/#site"},
         "author": {"@type": "Organization", "name": "Aretê Academy"},
+        "publisher": {"@id": "https://areteacademy.com.br/#org"},
     }
+    migalhas = {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": n, "item": u}
+            for i, (n, u) in enumerate([("brevis.sh", "%s%s/" % (BASE_URL, pfx)),
+                                        (s["ui"]["docs"], "%s%s/docs/" % (BASE_URL, pfx)),
+                                        (p["titulo"], url)], 1)],
+    }
+    grafo = [artigo, migalhas]
+    if p["slug"] == "faq":
+        qa = perguntas(p["corpo"])
+        if qa:
+            grafo.append({"@type": "FAQPage", "inLanguage": LOCALE[lang], "mainEntity": [
+                {"@type": "Question", "name": q,
+                 "acceptedAnswer": {"@type": "Answer", "text": r}} for q, r in qa]})
+    return {"@context": "https://schema.org", "@graph": grafo}
 
 
 # O que vai para o dist/ que o Cloudflare publica. As pastas de idioma saem de
@@ -1012,6 +1113,49 @@ def fora_do_dist(escritos, destino):
     produção -- o que aconteceu com os dez idiomas do #166.
     """
     return [rel for rel in escritos if not (destino / rel).exists()]
+
+
+def auditar(destino, escritos):
+    """O que o SEO e os agentes leem, página a página. Falha o `--check`.
+
+    Não é uma lista de boas práticas: cada regra é algo que, quebrado, tira a
+    página do índice, da língua certa ou do resultado enriquecido.
+    """
+    sitemap = (destino / "sitemap.xml").read_text(encoding="utf-8")
+    no_sitemap = set(re.findall(r"<loc>([^<]+)</loc>", sitemap))
+    erros = []
+    for rel in escritos:
+        if not rel.endswith("index.html") or rel.startswith(GO_PREFIXO.split("/", 1)[1] + "/"):
+            continue
+        h = (destino / rel).read_text(encoding="utf-8")
+
+        def um(padrao, nome):
+            n = len(re.findall(padrao, h))
+            if n != 1:
+                erros.append("%s: %d %s (esperado 1)" % (rel, n, nome))
+
+        um(r'<link rel="canonical"', "canonical")
+        um(r"<h1[ >]", "h1")
+        um(r'<meta property="og:image"', "og:image")
+        um(r"<title>", "title")
+        t = re.search(r"<title>(.*?)</title>", h, re.S).group(1)
+        d = re.search(r'<meta name="description" content="(.*?)"', h)
+        if len(html.unescape(t)) > 70:
+            erros.append("%s: title com %d caracteres (máx 70)" % (rel, len(html.unescape(t))))
+        if not d or len(html.unescape(d.group(1))) > 160:
+            erros.append("%s: description ausente ou com mais de 160 caracteres" % rel)
+        for bloco in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S):
+            try:
+                json.loads(bloco)
+            except ValueError as e:
+                erros.append("%s: JSON-LD inválido (%s)" % (rel, e))
+        canon = re.search(r'<link rel="canonical" href="([^"]+)"', h).group(1)
+        if canon not in no_sitemap:
+            erros.append("%s: canonical %s fora do sitemap" % (rel, canon))
+        if 'hreflang="x-default"' in h and ('hreflang="%s" href="%s"' % (
+                re.search(r'<html lang="([^"]+)"', h).group(1), canon)) not in h:
+            erros.append("%s: o hreflang não lista a própria página" % rel)
+    return erros
 
 
 def main():
@@ -1076,12 +1220,21 @@ def main():
                 if len(faltam) > 20:
                     print("  … e mais %d" % (len(faltam) - 20), file=sys.stderr)
                 return 1
+            erros = auditar(tmp, escritos)
+            if erros:
+                print("SEO/GEO:", file=sys.stderr)
+                for e in erros[:30]:
+                    print("  " + e, file=sys.stderr)
+                if len(erros) > 30:
+                    print("  … e mais %d" % (len(erros) - 30), file=sys.stderr)
+                return 1
             print("build em dia — %d páginas, todas servidas" % len(escritos))
             return 0
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
     escritos = gerar(SAIDA)
+    LASTMOD_ARQ.write_text(json.dumps(_lastmod_novo, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     print("%d páginas geradas" % len(escritos))
     for e in escritos:
         print("  " + e)

@@ -12,15 +12,22 @@
 <link rel="alternate" type="text/markdown" href="https://brevis.sh/ko/docs/observability/index.md">
 <link rel="alternate" hreflang="en-US" href="https://brevis.sh/docs/observability/"><link rel="alternate" hreflang="es" href="https://brevis.sh/es/docs/observability/"><link rel="alternate" hreflang="pt-BR" href="https://brevis.sh/pt/docs/observability/"><link rel="alternate" hreflang="fr" href="https://brevis.sh/fr/docs/observability/"><link rel="alternate" hreflang="de" href="https://brevis.sh/de/docs/observability/"><link rel="alternate" hreflang="zh-CN" href="https://brevis.sh/zh/docs/observability/"><link rel="alternate" hreflang="ja" href="https://brevis.sh/ja/docs/observability/"><link rel="alternate" hreflang="ru" href="https://brevis.sh/ru/docs/observability/"><link rel="alternate" hreflang="ko" href="https://brevis.sh/ko/docs/observability/"><link rel="alternate" hreflang="hi" href="https://brevis.sh/hi/docs/observability/"><link rel="alternate" hreflang="id" href="https://brevis.sh/id/docs/observability/">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="brevis.sh">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="pt_BR"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="zh_CN"><meta property="og:locale:alternate" content="ja_JP"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID">
 <meta property="og:title" content="관측성 — 문서">
 <meta property="og:description" content="두 프로세스의 Prometheus 메트릭, 무엇을 지켜봐야 하는지, 그리고 의도적으로 없는 것입니다.">
 <meta property="og:url" content="https://brevis.sh/ko/docs/observability/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://brevis.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="brevis.sh: open source data infrastructure in Go">
+<meta property="article:modified_time" content="2026-11-01">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="관측성 — 문서">
 <meta name="twitter:description" content="두 프로세스의 Prometheus 메트릭, 무엇을 지켜봐야 하는지, 그리고 의도적으로 없는 것입니다.">
+<meta name="twitter:image" content="https://brevis.sh/assets/og.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,18 +40,52 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "관측성",
-  "description": "두 프로세스의 Prometheus 메트릭, 무엇을 지켜봐야 하는지, 그리고 의도적으로 없는 것입니다.",
-  "inLanguage": "ko",
-  "isPartOf": {
-    "@type": "WebSite",
-    "@id": "https://brevis.sh/#site"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "Aretê Academy"
-  }
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://brevis.sh/ko/docs/observability/#artigo",
+      "headline": "관측성",
+      "description": "두 프로세스의 Prometheus 메트릭, 무엇을 지켜봐야 하는지, 그리고 의도적으로 없는 것입니다.",
+      "url": "https://brevis.sh/ko/docs/observability/",
+      "inLanguage": "ko",
+      "dateModified": "2026-11-01",
+      "image": "https://brevis.sh/assets/og.png",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://brevis.sh/#site"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Aretê Academy"
+      },
+      "publisher": {
+        "@id": "https://areteacademy.com.br/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "brevis.sh",
+          "item": "https://brevis.sh/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "문서",
+          "item": "https://brevis.sh/ko/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "관측성",
+          "item": "https://brevis.sh/ko/docs/observability/"
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>
