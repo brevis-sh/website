@@ -138,7 +138,7 @@ AWS SDK を抱えるべきではありません。
 
 | イメージ | 含むもの | pull サイズ(amd64) |
 |---|---|---|
-| `brevissh/brevis-gateway:0.33.0` | 6 つの sink、S3、GCS、Redis、memcached | 19.1 MB |
+| `brevissh/brevis-gateway:0.33.0` | 6 つの sink、S3、GCS、Redis、memcached | 20.1 MB |
 | `brevissh/brevis-gateway:0.33.0-slim` | `postgres`、ローカルの `files`、`auto_table` | **5.2 MB** |
 
 どちらも 1 つのツリーの 1 回のビルドから作られるため、2 つのタグは常に同じコミットです。

@@ -149,7 +149,7 @@ build que solo escribe localmente no debería llevar el SDK de AWS para hacerlo.
 
 | imagen | lleva | descarga (amd64) |
 |---|---|---|
-| `brevissh/brevis-gateway:0.33.0` | seis sinks, S3, GCS, Redis, memcached | 19,1 MB |
+| `brevissh/brevis-gateway:0.33.0` | seis sinks, S3, GCS, Redis, memcached | 20,1 MB |
 | `brevissh/brevis-gateway:0.33.0-slim` | `postgres`, `files` local, `auto_table` | **5,2 MB** |
 
 Ambas de un mismo build de un mismo árbol, así que los dos tags son siempre el mismo commit.

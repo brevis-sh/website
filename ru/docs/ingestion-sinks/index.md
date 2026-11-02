@@ -150,7 +150,7 @@ func main() {
 
 | образ | содержит | pull (amd64) |
 |---|---|---|
-| `brevissh/brevis-gateway:0.33.0` | шесть sinks, S3, GCS, Redis, memcached | 19,1 МБ |
+| `brevissh/brevis-gateway:0.33.0` | шесть sinks, S3, GCS, Redis, memcached | 20,1 МБ |
 | `brevissh/brevis-gateway:0.33.0-slim` | `postgres`, локальные `files`, `auto_table` | **5,2 МБ** |
 
 Оба из одной сборки одного дерева, поэтому два тега всегда указывают на один

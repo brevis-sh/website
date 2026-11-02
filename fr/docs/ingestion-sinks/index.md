@@ -152,7 +152,7 @@ pour le faire.
 
 | image | contient | pull (amd64) |
 |---|---|---|
-| `brevissh/brevis-gateway:0.33.0` | six sinks, S3, GCS, Redis, memcached | 19,1 Mo |
+| `brevissh/brevis-gateway:0.33.0` | six sinks, S3, GCS, Redis, memcached | 20,1 Mo |
 | `brevissh/brevis-gateway:0.33.0-slim` | `postgres`, `files` local, `auto_table` | **5,2 Mo** |
 
 Les deux issues d'un même build d'un même arbre, donc les deux tags correspondent
