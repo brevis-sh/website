@@ -132,11 +132,6 @@ de sumir do índice em silêncio.
 - **Em grid, `minmax(0, 1fr)`, nunca `1fr`.** `1fr` é `minmax(auto, 1fr)`: o
   track não encolhe abaixo do min-content, e um `<pre>` empurra a página inteira
   para a rolagem horizontal no celular.
-- **Um bloco `types` no nginx SUBSTITUI a tabela de mime types.** Acrescentar
-  `text/markdown` dentro de `server` fez o `.md` sair certo e todo o resto —
-  HTML incluído — virar `application/octet-stream`, ou seja, um download. O
-  jeito aditivo é editar o `/etc/nginx/mime.types`, que é o que o `Dockerfile`
-  faz.
 - **`{{ .campo }}` nos exemplos é template do Brevis**, não do gerador. O
   gerador só troca `{{ identificador }}`; um placeholder seu sem valor levanta
   `KeyError` no build, em vez de sobreviver até o HTML.
@@ -160,17 +155,10 @@ Mono em rótulos e código.
 
 ## Deploy
 
-O `Dockerfile` (nginx) remove as fontes de build da imagem e devolve **404 de
-verdade** para caminho inexistente — `try_files … /index.html` serviria a
-landing com status 200, e um link quebrado passaria despercebido.
-
-```bash
-docker build -t brevis-site .
-vercel .                        # ou: netlify deploy --dir=.
-```
-
-A CI (`.github/workflows/build-site.yml`) roda `build.py --check`, valida o HTML
-das 28 páginas, roda Lighthouse no PR e publica a imagem no push.
+Cloudflare Pages, ligado a este repositório: cada push em `master` publica e
+cada pull request ganha um preview. Ver `DEPLOY.md`. A CI
+(`.github/workflows/build.yml`) roda `build.py --check`, valida o CSS e os
+links e roda Lighthouse no PR.
 
 ## Documentação futura em `docs.brevis.sh`
 
