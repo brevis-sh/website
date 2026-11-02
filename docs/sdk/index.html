@@ -218,7 +218,7 @@ res, <span class="t-k">err</span> := sdk.Load(ctx, rows, sdk.Target{
 <p>A whole file pipeline — read and write — costs 195 packages and no cloud SDK at all. <strong>A driver with a vendor SDK behind it lives in its own package</strong>, which is why BigQuery is <code>to/bigquery</code> and the object stores are <code>store/s3</code> and <code>store/gcs</code>.</p>
 <h2 id="sources-and-destinations">Sources and destinations<a class="anchor" href="#sources-and-destinations" aria-label="link">#</a></h2>
 <div class="table-wrap"><table><thead><tr><th>source</th><th>package</th></tr></thead><tbody><tr><td>HTTP</td><td><code>from.HTTP</code></td></tr><tr><td>files (local, S3, GCS)</td><td><code>from.Files</code></td></tr><tr><td>Postgres</td><td><code>from/postgres</code></td></tr><tr><td>MySQL</td><td><code>from/mysql</code></td></tr><tr><td>several sources</td><td><code>from.Many</code></td></tr></tbody></table></div>
-<div class="table-wrap"><table><thead><tr><th>destination</th><th>package</th></tr></thead><tbody><tr><td>files</td><td><code>to.Files</code></td></tr><tr><td>BigQuery</td><td><code>to/bigquery</code></td></tr><tr><td>Postgres</td><td><code>to/postgres</code></td></tr><tr><td>MySQL</td><td><code>to/mysql</code></td></tr><tr><td>Redshift</td><td><code>to/redshift</code></td></tr><tr><td>Pub/Sub</td><td><code>to/pubsub</code></td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>destination</th><th>package</th></tr></thead><tbody><tr><td>files</td><td><code>to.Files</code></td></tr><tr><td>BigQuery</td><td><code>to/bigquery</code></td></tr><tr><td>Postgres</td><td><code>to/postgres</code></td></tr><tr><td>MySQL</td><td><code>to/mysql</code></td></tr><tr><td>Redshift</td><td><code>to/redshift</code></td></tr><tr><td>Pub/Sub</td><td><code>to/pubsub</code></td></tr><tr><td>Apache Iceberg</td><td><code>sdk/iceberg</code>, a module of its own</td></tr></tbody></table></div>
 <p>The path scheme decides the backend, and the <code>Store</code> is <strong>passed in</strong> rather than chosen inside the driver:</p>
 <div class="code-block" data-code="from.Files{Path: &quot;s3://bucket/day=1/*.ndjson&quot;, Store: s3.New(client)}
 to.Files{Path: &quot;gs://bucket/landing/&quot;, Store: gcs.New(client)}"><div class="code-head"><span class="code-lang">go</span><button class="code-copy" type="button" aria-label="Copy" data-done="Copied">Copy</button></div><pre><code>from.Files{Path: "s3:<span class="t-c">//bucket/day=1/*.ndjson", Store: s3.New(client)}</span>
@@ -260,6 +260,69 @@ to.Files{Path: "gs:<span class="t-c">//bucket/landing/", Store: gcs.New(client)}
 <p>Three things follow from it:</p>
 <ul><li><strong>It never creates a topic.</strong> A pipeline that can create one can create the wrong one, and unlike a mistyped table nobody notices — the messages go somewhere and the subscriber that should have received them stays quiet.</li><li><strong><code>Schema</code>, <code>Dedup</code> and <code>PartitionBy</code> are refused</strong>, naming the option. They exist for tables: a <code>Schema</code> is how a destination creates one, deduplication needs a row to replace, a partition is a table's idea. The nearest thing here is <code>OrderingKey</code>, which is a different one — it groups messages that must <em>arrive</em> in order.</li><li><strong>A failure is partial.</strong> Publishing is not transactional, so 48,000 messages that fail at 31,000 have <em>delivered</em> 31,000. The result reports what actually went, and the error says a re-run is a re-delivery — the subscriber has to be idempotent, and Pub/Sub is at-least-once anyway.</li></ul>
 <p>Runnable, against the emulator: <a href="https://github.com/brevis-sh/brevis/tree/master/examples/13-pubsub" target="_blank" rel="noopener"><code>examples/13-pubsub</code></a>.</p>
+<h3 id="writing-to-an-iceberg-lake">Writing to an Iceberg lake<a class="anchor" href="#writing-to-an-iceberg-lake" aria-label="link">#</a></h3>
+<p><code>brevis.sh/brevis/sdk/iceberg</code> writes a batch into an Apache Iceberg table as Parquet, one snapshot per <code>Write</code>, through the catalog that holds the table's metadata pointer: a REST catalog (Polaris, Lakekeeper, Nessie, the reference <code>iceberg-rest-fixture</code>) or the SQL catalog on Postgres. <strong>It is a Go module of its own</strong>, versioned apart from the SDK, because iceberg-go brings Apache Arrow and the Parquet writer along, and a module-level requirement is not pruned by what a program imports. A fetcher that writes a CSV never compiles it.</p>
+<div class="code-block" data-code="import (
+    &quot;brevis.sh/brevis/sdk&quot;
+    &quot;brevis.sh/brevis/sdk/iceberg&quot;
+
+    _ &quot;github.com/apache/iceberg-go/io/gocloud/s3&quot;   // the S3 backend; a warehouse on disk needs no import
+)
+
+lake := iceberg.Catalog{
+    Name:      &quot;lake&quot;,                               // the first segment of iceberg://lake/bronze/events
+    Type:      iceberg.SQL,                          // or iceberg.REST, with URI and Credential or Token
+    DSN:       os.Getenv(&quot;LAKE_DSN&quot;),
+    Warehouse: &quot;s3://lake/warehouse&quot;,
+    IO: map[string]string{                           // iceberg-go&#x27;s own keys, passed through
+        &quot;s3.endpoint&quot;: &quot;http://seaweedfs:8333&quot;, &quot;s3.region&quot;: &quot;us-east-1&quot;,
+        &quot;s3.access-key-id&quot;: os.Getenv(&quot;LAKE_KEY&quot;), &quot;s3.secret-access-key&quot;: os.Getenv(&quot;LAKE_SECRET&quot;),
+        &quot;s3.force-virtual-addressing&quot;: &quot;false&quot;,
+    },
+}
+
+res, err := sdk.Load(ctx, rows, sdk.Target{
+    To: iceberg.Table{
+        Catalog:     lake,                           // opened once per process, shared by every Table naming it
+        Namespace:   &quot;bronze&quot;,
+        Name:        &quot;events&quot;,
+        PartitionBy: &quot;occurred_at&quot;,                  // day(occurred_at) when the table is created
+        CreateTable: &amp;yes,
+    },
+    Schema: schema,                                  // required to create: types are never inferred from a batch
+})"><div class="code-head"><span class="code-lang">go</span><button class="code-copy" type="button" aria-label="Copy" data-done="Copied">Copy</button></div><pre><code><span class="t-k">import</span> (
+    "brevis.sh/brevis/sdk"
+    "brevis.sh/brevis/sdk/iceberg"
+
+    _ "github.com/apache/iceberg-<span class="t-k">go</span>/io/gocloud/s3"   <span class="t-c">// the S3 backend; a warehouse on disk needs no import</span>
+)
+
+lake := iceberg.Catalog{
+    Name:      "lake",                               <span class="t-c">// the first segment of iceberg://lake/bronze/events</span>
+    Type:      iceberg.SQL,                          <span class="t-c">// or iceberg.REST, with URI and Credential or Token</span>
+    DSN:       os.Getenv("LAKE_DSN"),
+    Warehouse: "s3:<span class="t-c">//lake/warehouse",</span>
+    IO: <span class="t-k">map</span>[string]string{                           <span class="t-c">// iceberg-go's own keys, passed through</span>
+        "s3.endpoint": "http:<span class="t-c">//seaweedfs:8333", "s3.region": "us-east-1",</span>
+        "s3.access-key-id": os.Getenv("LAKE_KEY"), "s3.secret-access-key": os.Getenv("LAKE_SECRET"),
+        "s3.force-virtual-addressing": "false",
+    },
+}
+
+res, <span class="t-k">err</span> := sdk.Load(ctx, rows, sdk.Target{
+    To: iceberg.Table{
+        Catalog:     lake,                           <span class="t-c">// opened once per process, shared by every Table naming it</span>
+        Namespace:   "bronze",
+        Name:        "events",
+        PartitionBy: "occurred_at",                  <span class="t-c">// day(occurred_at) when the table is created</span>
+        CreateTable: &amp;yes,
+    },
+    Schema: schema,                                  <span class="t-c">// required to create: types are never inferred from a batch</span>
+})</code></pre></div>
+<p>The first <code>Write</code> creates the table -- format v2, zstd, partitioned by <code>day(occurred_at)</code>, in a namespace created on the way -- and every <code>Write</code> after it appends one snapshot. <code>res.Rows</code>, <code>res.Bytes</code> and the files it wrote say what landed, and the step's landing is <code>iceberg://lake/bronze/events</code>, which the engine shows on <code>/data</code>.</p>
+<p><strong>A retried batch lands once, without <code>Dedup</code>.</strong> The <code>BatchKey</code> of the write goes into the snapshot's summary, and a <code>Write</code> whose key already names a snapshot writes nothing and reports <code>Strategy: "already-committed"</code>. Two writers on one table are retried through the catalog's conflict, with backoff.</p>
+<p>What an append-only lake cannot do is refused, naming the option: <code>Dedup</code> (rely on <code>BatchKey</code>), a <code>Default</code> or a <code>Unique</code> in the <code>Schema</code>, a <code>PartitionBy</code> that is not the existing table's <code>day(column)</code>, and creating a table without a <code>Schema</code> -- the error lists the batch's columns so you can write one. There is no <code>Evolve</code>: a divergence between the batch and the table is an error, never an <code>ALTER</code>.</p>
+<p>What it writes is read by DuckDB, Spark and Trino. The SDK's CI has DuckDB read every table its tests write, by the <code>metadata.json</code> path, and check the count and a sum. A whole lake built on it, from an HTTP ingest to a metrics API, is <a href="https://github.com/brevis-sh/stoa" target="_blank" rel="noopener">brevis-sh/stoa</a>.</p>
 <h2 id="a-whole-fetcher">A whole fetcher<a class="anchor" href="#a-whole-fetcher" aria-label="link">#</a></h2>
 <p><code>sdk.Run</code> takes care of flags, <code>-dry-run</code>, logging, retry, pagination, provenance, table creation and the exit code. What is left in the file is only what is specific to that source:</p>
 <div class="code-block" data-code="package main
@@ -524,7 +587,7 @@ specification without a key length</code></pre></div>
 
     <aside class="toc" aria-label="On this page">
       <p class="toc-t">On this page</p>
-      <ul><li class="toc-2"><a href="#three-steps">Three steps</a></li><li class="toc-2"><a href="#the-driver-is-a-value-not-a-setting">The driver is a value, not a setting</a></li><li class="toc-2"><a href="#sources-and-destinations">Sources and destinations</a></li><li class="toc-3"><a href="#publishing-to-a-topic">Publishing to a topic</a></li><li class="toc-2"><a href="#a-whole-fetcher">A whole fetcher</a></li><li class="toc-2"><a href="#the-run-context">The run context</a></li><li class="toc-3"><a href="#the-clock">The clock</a></li><li class="toc-2"><a href="#not-to-be-confused-with-the-client-libraries">Not to be confused with the client libraries</a></li><li class="toc-2"><a href="#parameters-that-build-the-pipeline">Parameters that build the pipeline</a></li><li class="toc-2"><a href="#the-landing-layout">The landing layout</a></li><li class="toc-3"><a href="#two-shapes-the-record-whole-or-one-column-per-field">Two shapes: the record whole, or one column per field</a></li><li class="toc-3"><a href="#the-brevis-prefix-is-yours-to-change">The brevis_ prefix is yours to change</a></li><li class="toc-3"><a href="#one-column-per-nested-field">One column per nested field</a></li><li class="toc-3"><a href="#text-that-is-already-json">Text that is already JSON</a></li><li class="toc-3"><a href="#when-a-field-the-table-does-not-have-shows-up">When a field the table does not have shows up</a></li><li class="toc-2"><a href="#reference">Reference</a></li></ul>
+      <ul><li class="toc-2"><a href="#three-steps">Three steps</a></li><li class="toc-2"><a href="#the-driver-is-a-value-not-a-setting">The driver is a value, not a setting</a></li><li class="toc-2"><a href="#sources-and-destinations">Sources and destinations</a></li><li class="toc-3"><a href="#publishing-to-a-topic">Publishing to a topic</a></li><li class="toc-3"><a href="#writing-to-an-iceberg-lake">Writing to an Iceberg lake</a></li><li class="toc-2"><a href="#a-whole-fetcher">A whole fetcher</a></li><li class="toc-2"><a href="#the-run-context">The run context</a></li><li class="toc-3"><a href="#the-clock">The clock</a></li><li class="toc-2"><a href="#not-to-be-confused-with-the-client-libraries">Not to be confused with the client libraries</a></li><li class="toc-2"><a href="#parameters-that-build-the-pipeline">Parameters that build the pipeline</a></li><li class="toc-2"><a href="#the-landing-layout">The landing layout</a></li><li class="toc-3"><a href="#two-shapes-the-record-whole-or-one-column-per-field">Two shapes: the record whole, or one column per field</a></li><li class="toc-3"><a href="#the-brevis-prefix-is-yours-to-change">The brevis_ prefix is yours to change</a></li><li class="toc-3"><a href="#one-column-per-nested-field">One column per nested field</a></li><li class="toc-3"><a href="#text-that-is-already-json">Text that is already JSON</a></li><li class="toc-3"><a href="#when-a-field-the-table-does-not-have-shows-up">When a field the table does not have shows up</a></li><li class="toc-2"><a href="#reference">Reference</a></li></ul>
     </aside>
   </main>
 </div>

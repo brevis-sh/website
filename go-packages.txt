@@ -72,6 +72,7 @@ brevis.sh/brevis/sdk/extract
 brevis.sh/brevis/sdk/from
 brevis.sh/brevis/sdk/from/mysql
 brevis.sh/brevis/sdk/from/postgres
+brevis.sh/brevis/sdk/iceberg
 brevis.sh/brevis/sdk/internal/checkpoint
 brevis.sh/brevis/sdk/internal/core
 brevis.sh/brevis/sdk/internal/jsontext

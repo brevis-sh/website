@@ -2751,6 +2751,7 @@ why BigQuery is `to/bigquery` and the object stores are `store/s3` and
 | MySQL | `to/mysql` |
 | Redshift | `to/redshift` |
 | Pub/Sub | `to/pubsub` |
+| Apache Iceberg | `sdk/iceberg`, a module of its own |
 
 The path scheme decides the backend, and the `Store` is **passed in** rather
 than chosen inside the driver:
@@ -2815,6 +2816,73 @@ Three things follow from it:
 
 Runnable, against the emulator:
 [`examples/13-pubsub`](https://github.com/brevis-sh/brevis/tree/master/examples/13-pubsub).
+
+### Writing to an Iceberg lake
+
+`brevis.sh/brevis/sdk/iceberg` writes a batch into an Apache Iceberg table as
+Parquet, one snapshot per `Write`, through the catalog that holds the table's
+metadata pointer: a REST catalog (Polaris, Lakekeeper, Nessie, the reference
+`iceberg-rest-fixture`) or the SQL catalog on Postgres. **It is a Go module of
+its own**, versioned apart from the SDK, because iceberg-go brings Apache
+Arrow and the Parquet writer along, and a module-level requirement is not
+pruned by what a program imports. A fetcher that writes a CSV never compiles
+it.
+
+```go
+import (
+    "brevis.sh/brevis/sdk"
+    "brevis.sh/brevis/sdk/iceberg"
+
+    _ "github.com/apache/iceberg-go/io/gocloud/s3"   // the S3 backend; a warehouse on disk needs no import
+)
+
+lake := iceberg.Catalog{
+    Name:      "lake",                               // the first segment of iceberg://lake/bronze/events
+    Type:      iceberg.SQL,                          // or iceberg.REST, with URI and Credential or Token
+    DSN:       os.Getenv("LAKE_DSN"),
+    Warehouse: "s3://lake/warehouse",
+    IO: map[string]string{                           // iceberg-go's own keys, passed through
+        "s3.endpoint": "http://seaweedfs:8333", "s3.region": "us-east-1",
+        "s3.access-key-id": os.Getenv("LAKE_KEY"), "s3.secret-access-key": os.Getenv("LAKE_SECRET"),
+        "s3.force-virtual-addressing": "false",
+    },
+}
+
+res, err := sdk.Load(ctx, rows, sdk.Target{
+    To: iceberg.Table{
+        Catalog:     lake,                           // opened once per process, shared by every Table naming it
+        Namespace:   "bronze",
+        Name:        "events",
+        PartitionBy: "occurred_at",                  // day(occurred_at) when the table is created
+        CreateTable: &yes,
+    },
+    Schema: schema,                                  // required to create: types are never inferred from a batch
+})
+```
+
+The first `Write` creates the table -- format v2, zstd, partitioned by
+`day(occurred_at)`, in a namespace created on the way -- and every `Write`
+after it appends one snapshot. `res.Rows`, `res.Bytes` and the files it wrote
+say what landed, and the step's landing is `iceberg://lake/bronze/events`,
+which the engine shows on `/data`.
+
+**A retried batch lands once, without `Dedup`.** The `BatchKey` of the write
+goes into the snapshot's summary, and a `Write` whose key already names a
+snapshot writes nothing and reports `Strategy: "already-committed"`. Two
+writers on one table are retried through the catalog's conflict, with
+backoff.
+
+What an append-only lake cannot do is refused, naming the option: `Dedup`
+(rely on `BatchKey`), a `Default` or a `Unique` in the `Schema`, a
+`PartitionBy` that is not the existing table's `day(column)`, and creating a
+table without a `Schema` -- the error lists the batch's columns so you can
+write one. There is no `Evolve`: a divergence between the batch and the table
+is an error, never an `ALTER`.
+
+What it writes is read by DuckDB, Spark and Trino. The SDK's CI has DuckDB
+read every table its tests write, by the `metadata.json` path, and check the
+count and a sum. A whole lake built on it, from an HTTP ingest to a metrics
+API, is [brevis-sh/stoa](https://github.com/brevis-sh/stoa).
 
 ## A whole fetcher
 
