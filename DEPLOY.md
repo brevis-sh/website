@@ -54,6 +54,6 @@ generated but not linked.
 ## Moving from the old Worker
 
 `brevis.sh` used to be a custom domain on a Cloudflare Worker named `brevis`,
-built from `AreteAcademy/brevis` with root directory `site`. To move it: create
+built from `brevis-sh/brevis` with root directory `site`. To move it: create
 the Pages project, confirm the preview URL serves the site, remove the custom
 domain from the Worker, add it to the Pages project, then delete the Worker.

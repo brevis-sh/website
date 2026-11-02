@@ -405,7 +405,7 @@ SELECT JSON_VALUE(customer, '$.uf') ...;           -- SP
 Если `JSON_TYPE` отвечает `string`, а `JSON_VALUE` отвечает NULL, объект был
 закодирован дважды — столбец хранит ТЕКСТ объекта, а не объект. Версии gateway
 до **0.15.0** включительно делали так в BigQuery в **обеих** формах; о проверке
-в одну строку и исправлении см. [журнал изменений gateway](https://github.com/AreteAcademy/brevis/blob/master/gateway/CHANGELOG.md).
+в одну строку и исправлении см. [журнал изменений gateway](https://github.com/brevis-sh/brevis/blob/master/gateway/CHANGELOG.md).
 Postgres и MySQL никогда не были затронуты: их сервер разбирает текст.
 
 Имя поля должно соответствовать правилу BigQuery, самому узкому из четырёх.

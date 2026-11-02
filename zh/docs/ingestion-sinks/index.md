@@ -288,7 +288,7 @@ SELECT JSON_TYPE(customer) FROM bronze.orders;     -- object
 SELECT JSON_VALUE(customer, '$.uf') ...;           -- SP
 ```
 
-如果 `JSON_TYPE` 回答 `string` 而 `JSON_VALUE` 回答 NULL，说明对象被编码了两次：列里保存的是对象的文本，而不是对象。**0.15.0** 及之前的 gateway 版本在 BigQuery 上，在**两种**形态下都是这样；一行命令的检查与修复方法见 [gateway 变更日志](https://github.com/AreteAcademy/brevis/blob/master/gateway/CHANGELOG.md)。Postgres 和 MySQL 从未受到影响：它们的服务器会解析文本。
+如果 `JSON_TYPE` 回答 `string` 而 `JSON_VALUE` 回答 NULL，说明对象被编码了两次：列里保存的是对象的文本，而不是对象。**0.15.0** 及之前的 gateway 版本在 BigQuery 上，在**两种**形态下都是这样；一行命令的检查与修复方法见 [gateway 变更日志](https://github.com/brevis-sh/brevis/blob/master/gateway/CHANGELOG.md)。Postgres 和 MySQL 从未受到影响：它们的服务器会解析文本。
 
 字段名必须符合 BigQuery 的规则，这是四者中最严格的。Postgres 几乎接受任何带引号的名称，而这正是陷阱：表在那里创建出来了，却在有人把 stream 指向 BigQuery 的那天出问题。
 

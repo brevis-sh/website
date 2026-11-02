@@ -406,7 +406,7 @@ SELECT JSON_VALUE(customer, '$.uf') ...;           -- SP
 Jika `JSON_TYPE` menjawab `string` dan `JSON_VALUE` menjawab NULL, objek itu
 di-encode dua kali — kolom berisi TEKS objek alih-alih objeknya. Versi gateway
 hingga dan termasuk **0.15.0** melakukannya di BigQuery, pada **kedua** bentuk;
-lihat [changelog gateway](https://github.com/AreteAcademy/brevis/blob/master/gateway/CHANGELOG.md)
+lihat [changelog gateway](https://github.com/brevis-sh/brevis/blob/master/gateway/CHANGELOG.md)
 untuk pemeriksaan satu baris dan perbaikannya. Postgres dan MySQL tidak pernah
 terpengaruh: server mereka mem-parse teksnya.
 
