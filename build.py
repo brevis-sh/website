@@ -4,7 +4,7 @@
 Só a biblioteca padrão: o site é servido como HTML estático, e uma dependência
 aqui viraria uma dependência de quem só quer corrigir um parágrafo.
 
-    python3 build.py            # gera em site/
+    python3 build.py            # gera na raiz do repositório
     python3 build.py --check    # gera num diretório temporário e compara
 
 O que entra:  templates/*.html, i18n.json, content/<lang>/docs/*.md
@@ -44,6 +44,8 @@ IDIOMA_NATIVO = {"en": "English", "es": "Español", "pt": "Português", "fr": "F
 LLMS = "en"
 
 REPO = "https://github.com/AreteAcademy/brevis"
+# Este repositório, para o link "editar esta página".
+WEBSITE_REPO = "https://github.com/brevis-sh/website"
 # owner/name, for the API call that counts the stars (templates/base.html).
 REPO_SLUG = REPO.split("github.com/", 1)[1]
 
@@ -431,10 +433,13 @@ def preencher(tpl, valores):
 # organização no GitHub. O `go get` pede https://<caminho do pacote>?go-get=1 e
 # lê a meta go-import, então cada pacote importável ganha uma página aqui.
 #
-# A LISTA SAI DO REPOSITÓRIO, NÃO DE `go list`: o Cloudflare constrói o site sem
-# Go, mas com o repositório inteiro clonado. Um pacote é um diretório com .go
-# que não é de teste, sob o go.mod mais próximo; o caminho é o `module` dele
-# mais o diretório relativo.
+# A LISTA VEM DE go-packages.txt, COMMITADO: o site mora num repositório à parte
+# e o Cloudflare o constrói sem o código do brevis. `build.py --sync-go
+# <checkout do brevis>` reescreve o arquivo a partir dos go.mod de lá, e o
+# workflow sync-go-packages.yml faz isso todo dia e abre um PR se mudou.
+#
+# Um pacote é um diretório com .go que não é de teste, sob o go.mod mais
+# próximo; o caminho é o `module` dele mais o diretório relativo.
 #
 # GO_VCS é o endereço novo do repositório; REPO, acima, ainda é o antigo (os
 # links do site mudam numa mudança à parte) e o GitHub o redireciona.
@@ -442,9 +447,16 @@ GO_PREFIXO = "brevis.sh/brevis"
 GO_VCS = "https://github.com/brevis-sh/brevis"
 
 
+GO_LISTA = RAIZ / "go-packages.txt"
+
+
 def pacotes_go():
     """Cada caminho de import sob GO_PREFIXO que um `go get` pode pedir."""
-    repo = RAIZ.parent
+    return sorted(l for l in GO_LISTA.read_text(encoding="utf-8").split("\n") if l)
+
+
+def varrer_pacotes_go(repo):
+    """Percorre um checkout do brevis e devolve os caminhos de import de lá."""
     pula = ("testdata", "node_modules", "vendor")
 
     def ignorado(rel):
@@ -709,7 +721,7 @@ def gerar(destino):
                 "conteudo_md": corpo_html,
                 "anterior": elo(ant, s["ui"]["anterior"], "pager-prev"),
                 "proximo": elo(prox, s["ui"]["proximo"], "pager-next"),
-                "editar": "%s/blob/master/site/content/%s/docs/%s.md" % (REPO, lang, p["slug"]),
+                "editar": "%s/blob/master/content/%s/docs/%s.md" % (WEBSITE_REPO, lang, p["slug"]),
             }))
             alt_pagina = "".join(
                 '<link rel="alternate" hreflang="%s" href="%s%s/%s">' % (LOCALE[l], BASE_URL, prefixo(l), rel)
@@ -1006,9 +1018,19 @@ def main():
     ap = argparse.ArgumentParser(description="Gera o site do brevis.sh")
     ap.add_argument("--check", action="store_true",
                     help="gera num diretório temporário e falha se o commitado divergir")
+    ap.add_argument("--sync-go", metavar="BREVIS", type=Path,
+                    help="reescreve go-packages.txt a partir de um checkout do brevis e sai")
     ap.add_argument("--dist", action="store_true",
                     help="gera e reúne em dist/ só o que é servido (para o Cloudflare Pages)")
     args = ap.parse_args()
+
+    if args.sync_go:
+        lista = varrer_pacotes_go(args.sync_go.resolve())
+        if len(lista) < 2:
+            sys.exit("%s não parece o checkout do brevis: %d pacote(s)" % (args.sync_go, len(lista)))
+        GO_LISTA.write_text("\n".join(lista) + "\n", encoding="utf-8")
+        print("go-packages.txt: %d pacotes" % len(lista))
+        return
 
     if args.dist:
         escritos = gerar(SAIDA)

@@ -1,0 +1,50 @@
+name: Sync Go packages
+
+# brevis.sh/brevis/... serves one go-import page per Go package, and the list of
+# packages lives in the brevis repository. This keeps go-packages.txt (and the
+# pages built from it) current: a new package there is a `go get` that works
+# here, without anyone remembering to come and add it.
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check out brevis
+        uses: actions/checkout@v7
+        with:
+          repository: brevis-sh/brevis
+          path: .brevis
+          fetch-depth: 1
+
+      - name: Rebuild from its go.mod files
+        run: |
+          python3 build.py --sync-go .brevis
+          rm -rf .brevis
+          python3 build.py
+
+      - name: Open a pull request if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then echo "up to date"; exit 0; fi
+          branch=chore/sync-go-packages
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add -A
+          git commit -m "chore: sync the Go package list from brevis"
+          git push --force origin "$branch"
+          gh pr create --base master --head "$branch" \
+            --title "chore: sync the Go package list from brevis" \
+            --body "The Go packages in brevis changed; this regenerates go-packages.txt and its go-import pages." \
+            || gh pr edit "$branch" --body "The Go packages in brevis changed; this regenerates go-packages.txt and its go-import pages."

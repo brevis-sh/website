@@ -1,6 +1,6 @@
-// Cloudflare Workers Builds reads this file from the root directory (site/).
+// Cloudflare Workers Builds reads this file from the root directory (the repository root).
 // Without it, `wrangler deploy` guesses a static site and uploads all of
-// site/ -- build.py, templates and content/*.md included -- and
+// the repository -- build.py, templates and content/*.md included -- and
 // `wrangler versions upload`, which non-production branches run, guesses
 // nothing and fails.
 {

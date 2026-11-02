@@ -13,8 +13,9 @@ RUN sed -i 's|^    text/plain  *txt;|    text/plain                            t
  && grep -q 'text/markdown' /etc/nginx/mime.types
 
 RUN cd /usr/share/nginx/html \
- && rm -rf build.py templates content i18n.json Dockerfile README.md \
-           netlify.toml vercel.json .lighthouserc.json .gitignore \
+ && rm -rf build.py templates content i18n.json Dockerfile README.md DEPLOY.md LICENSE \
+           go-packages.txt wrangler.jsonc netlify.toml vercel.json \
+           .lighthouserc.json .gitignore .dockerignore .github .git \
  && printf '%s\n' \
   'server {' \
   '  listen 80;' \

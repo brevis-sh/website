@@ -6,8 +6,8 @@ server-side anything.
 
 ## Cloudflare Workers Builds, connected to Git
 
-The Worker `brevis` is connected to `AreteAcademy/brevis` with root directory
-`site` and production branch `master`. Every push to `master` deploys; every
+The Worker `brevis` is connected to `brevis-sh/website` with root directory
+`/` and production branch `master`. Every push to `master` deploys; every
 other branch uploads a preview version.
 
 What ships is decided by **`wrangler.jsonc`** in this directory, not by the
@@ -26,7 +26,7 @@ The dashboard keeps its defaults (deploy `npx wrangler deploy`, version
 no environment. `brevis.sh` is a custom domain on the Worker.
 
 Without `wrangler.jsonc`, `wrangler deploy` guesses a static site and uploads
-all of `site/`, and `wrangler versions upload` guesses nothing and fails, which
+all of the repository, and `wrangler versions upload` guesses nothing and fails, which
 is the red `Workers Builds` check every pull request used to get.
 
 To see what a change would ship without deploying it:
@@ -76,7 +76,7 @@ all 32 URLs, and a missing one means a page was generated but not linked.
 
 **Wrangler from CI.** If the deploy should come out of GitHub Actions instead,
 it needs `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repository
-secrets and a step running `npx wrangler deploy` in `site/`, which reads the
+secrets and a step running `npx wrangler deploy`, which reads the
 same `wrangler.jsonc`. More moving parts, and the reason to want it is usually
 wanting the deploy gated on something the CI knows and Workers Builds does not.
 

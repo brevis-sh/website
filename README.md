@@ -169,7 +169,7 @@ docker build -t brevis-site .
 vercel .                        # ou: netlify deploy --dir=.
 ```
 
-A CI (`.github/workflows/build-site.yml`) roda `build.py --check`, valida o HTML
+A CI (`.github/workflows/build.yml`) roda `build.py --check`, valida o HTML
 das 28 páginas, roda Lighthouse no PR e publica a imagem no push.
 
 ## Documentação futura em `docs.brevis.sh`
