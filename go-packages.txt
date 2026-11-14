@@ -51,6 +51,7 @@ brevis.sh/brevis/internal/domain/runcontext
 brevis.sh/brevis/internal/domain/runtimes
 brevis.sh/brevis/internal/domain/schedule
 brevis.sh/brevis/internal/domain/workflow
+brevis.sh/brevis/internal/events
 brevis.sh/brevis/internal/execution
 brevis.sh/brevis/internal/execution/kubernetes
 brevis.sh/brevis/internal/execution/local
@@ -59,6 +60,7 @@ brevis.sh/brevis/internal/graph
 brevis.sh/brevis/internal/infrastructure/endpointcall
 brevis.sh/brevis/internal/infrastructure/postgres
 brevis.sh/brevis/internal/infrastructure/sqlserve
+brevis.sh/brevis/internal/metrics
 brevis.sh/brevis/internal/notify
 brevis.sh/brevis/internal/observability
 brevis.sh/brevis/internal/observability/metrics
@@ -113,5 +115,5 @@ brevis.sh/brevis/sql/internal/sqltok
 brevis.sh/brevis/web/assets
 brevis.sh/brevis/web/components
 brevis.sh/brevis/web/i18n
-brevis.sh/brevis/web/layouts
 brevis.sh/brevis/web/pages
+brevis.sh/brevis/web/spa
